@@ -1,4 +1,4 @@
-FROM cs50/baseimage
+FROM cs50/baseimage:python3.8
 USER root
 ARG DEBIAN_FRONTEND=noninteractive
 
