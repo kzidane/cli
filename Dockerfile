@@ -31,6 +31,7 @@ RUN apt-get update && \
         golang-go \
         imagemagick \
         info \
+        libjpeg8-dev `For Pillow` \
         man \
         mlocate \
         mysql-client \
