@@ -3,7 +3,7 @@ services: docker
 script: |
   if [[ -z "$TARGET_IMAGE" ]]; then
       ( [[ -z "$TAG" ]] && [[ "$TRAVIS_BRANCH" == "master" ]] ) && TAG="latest" || TAG="$TRAVIS_BRANCH"
-      TARGET_IMAGE="cs50/cli:$TAG"
+      TARGET_IMAGE="kzidane/cli:$TAG"
   fi
 
   docker build . -t "$TARGET_IMAGE"
