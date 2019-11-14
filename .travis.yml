@@ -1,10 +1,16 @@
 sudo: required
 services: docker
-script: docker build . -t cs50/cli:${TRAVIS_BRANCH/master/latest}
+script: |
+  if [[ -z "$TARGET_IMAGE" ]]; then
+      ( [[ -z "$TAG" ]] && [[ "$TRAVIS_BRANCH" == "master" ]] ) && TAG="latest" || TAG="$TRAVIS_BRANCH"
+      TARGET_IMAGE="cs50/cli:$TAG"
+  fi
+
+  docker build . -t "$TARGET_IMAGE"
 before_deploy: docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 deploy:
   provider: script
-  script: docker push cs50/cli:${TRAVIS_BRANCH/master/latest}
+  script: docker push "$TARGET_IMAGE"
   on:
     all_branches: true
     condition: $TRAVIS_BRANCH =~ ^master$
