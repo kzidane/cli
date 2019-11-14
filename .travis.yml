@@ -3,7 +3,7 @@ services: docker
 script: |
   set -eo pipefail
 
-  [[ -z "$TAG" ]] && ([[ "$TRAVIS_BRANCH" == "master" ]]  && TAG="latest" || TAG="$TRAVIS_BRANCH")
+  [[ -z "$TAG" ]] && [[ "$TRAVIS_BRANCH" == "master" ]]  && TAG="latest" || TAG="$TRAVIS_BRANCH"
   IMAGE="kzidane/cli:$TAG"
 
   if [[ -n "$BASE_IMAGE" ]]; then
