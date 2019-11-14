@@ -3,20 +3,18 @@ services: docker
 script: |
   set -eo pipefail
 
-  if [[ -z "$TARGET_IMAGE" ]]; then
-      ( [[ -z "$TAG" ]] && [[ "$TRAVIS_BRANCH" == "master" ]] ) && TAG="latest" || TAG="$TRAVIS_BRANCH"
-      TARGET_IMAGE="kzidane/cli:$TAG"
-  fi
+  [[ -z "$TAG" ]] && ([[ "$TRAVIS_BRANCH" == "master" ]]  && TAG="latest" || TAG="$TRAVIS_BRANCH")
+  IMAGE="kzidane/cli:$TAG"
 
   if [[ -n "$BASE_IMAGE" ]]; then
       sed -i "s#FROM.*#FROM $BASE_IMAGE#" Dockerfile
   fi
 
-  docker build . -t "$TARGET_IMAGE"
+  docker build . -t "$IMAGE"
 before_deploy: docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 deploy:
   provider: script
-  script: docker push "$TARGET_IMAGE"
+  script: docker push "$IMAGE"
   on:
     all_branches: true
     condition: $TRAVIS_BRANCH =~ ^master$
