@@ -1,6 +1,8 @@
 sudo: required
 services: docker
 script: |
+  set -eo pipefail
+
   if [[ -z "$TARGET_IMAGE" ]]; then
       ( [[ -z "$TAG" ]] && [[ "$TRAVIS_BRANCH" == "master" ]] ) && TAG="latest" || TAG="$TRAVIS_BRANCH"
       TARGET_IMAGE="kzidane/cli:$TAG"
