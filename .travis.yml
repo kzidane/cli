@@ -7,7 +7,7 @@ script: |
   fi
 
   if [[ -n "$BASE_IMAGE" ]]; then
-      sed -i "s/FROM.*/FROM $BASE_IMAGE/" Dockerfile
+      sed -i "s#FROM.*#FROM $BASE_IMAGE#" Dockerfile
   fi
 
   docker build . -t "$TARGET_IMAGE"
