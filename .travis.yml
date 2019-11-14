@@ -6,6 +6,10 @@ script: |
       TARGET_IMAGE="kzidane/cli:$TAG"
   fi
 
+  if [[ -n "$BASE_IMAGE" ]]; then
+      sed -i "s/FROM.*/FROM $BASE_IMAGE/" Dockerfile
+  fi
+
   docker build . -t "$TARGET_IMAGE"
 before_deploy: docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 deploy:
