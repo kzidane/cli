@@ -29,7 +29,7 @@ after_deploy: |
       -H "Travis-API-Version: 3" \
       -H "Authorization: token $TRAVIS_TOKEN" \
       -d '{"request": {"branch": "master"}}' \
-      "https://api.travis-ci.com/repo/$ORG%2F$REPO/requests"
+      "https://api.travis-ci.com/repo/${TRAVIS_REPO_SLUG/\//%2F}/requests"
   done
 notifications:
   slack:
