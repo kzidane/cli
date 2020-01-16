@@ -23,16 +23,13 @@ deploy:
 after_deploy: |
   rdepends="check server"
   for r in rdepends; do
-    REPO="cs50/$r.git"
-    git clone --depth=1 "https://github.com/$REPO" /tmp
-    pushd "/tmp/$r"
-    VERSION=$(( $(git tag --list --sort=creatordate | tail -n1) + 1 ))
-    git config --global user.name bot50
-    git config --global user.email bot@cs50.harvard.edu
-    git tag "$VERSION"
-    git remote set-url origin "https://$GITHUB_TOKEN:x-oauth-basic@github.com/cs50/$r.git"
-    git push origin "$VERSION"
-    popd
+    curl -s -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -H "Travis-API-Version: 3" \
+      -H "Authorization: token $TRAVIS_TOKEN" \
+      -d '{"request": {"branch": "master"}}' \
+      "https://api.travis-ci.com/repo/$ORG%2F$REPO/requests"
   done
 notifications:
   slack:
