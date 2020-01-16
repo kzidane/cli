@@ -1,7 +1,7 @@
 sudo: required
 services: docker
 branches:
-  except: /^v\d+/
+  except: /^\d+$/
 script: |
   export TRAVIS_TAG=$(( $(git tag --list --sort=creatordate | tail -n1) + 1 ))
   docker build . -t "$TRAVIS_REPO_SLUG:$TRAVIS_TAG"
